@@ -10,12 +10,14 @@ This project analyzes a Swiggy dataset using SQL to uncover insights about resta
 
 The dataset includes:
 
-* Restaurant Name
+*  Name
 * City
 * Cuisine
 * Rating
-* Cost for Two
-* Delivery Time
+* Cost 
+* link
+* rating_count
+* id
 
 ---
 
@@ -31,22 +33,22 @@ The dataset includes:
 
 ## 🛠️ Tools & Technologies
 
-* SQL (MySQL / PostgreSQL / SQL Server)
-* DBMS
-* CSV Dataset
+* SQL (MySQL)
 
 ---
 
 ## 🗄️ Database Schema
 
 ```sql
-CREATE TABLE swiggy_data (
-    restaurant_name VARCHAR(255),
+CREATE TABLE restaurants (
+    name VARCHAR(255),
     city VARCHAR(100),
     cuisine VARCHAR(255),
     rating FLOAT,
-    cost_for_two INT,
-    delivery_time INT
+    rating_count INT,
+     id INT,
+     cost INT ,
+     LINK VARCHAR(255)
 );
 ```
 
@@ -57,8 +59,8 @@ CREATE TABLE swiggy_data (
 ### Top Rated Restaurants
 
 ```sql
-SELECT restaurant_name, rating
-FROM swiggy_data
+SELECT name, rating
+FROM restaurants
 ORDER BY rating DESC
 LIMIT 10;
 ```
@@ -66,8 +68,8 @@ LIMIT 10;
 ### Average Cost by City
 
 ```sql
-SELECT city, AVG(cost_for_two) AS avg_cost
-FROM swiggy_data
+SELECT city, AVG(cost) AS avg_cost
+FROM restaurants
 GROUP BY city;
 ```
 
@@ -75,26 +77,22 @@ GROUP BY city;
 
 ```sql
 SELECT cuisine, COUNT(*) AS total
-FROM swiggy_data
+FROM restaurants
 GROUP BY cuisine
 ORDER BY total DESC;
 ```
 
-### Fastest Delivery Restaurants
 
-```sql
-SELECT restaurant_name, delivery_time
-FROM swiggy_data
-ORDER BY delivery_time ASC
-LIMIT 10;
+```
+
 ```
 
 ### High Rated & Affordable Restaurants
 
 ```sql
-SELECT restaurant_name, rating, cost_for_two
-FROM swiggy_data
-WHERE rating > 4.0 AND cost_for_two < 500;
+SELECT name, rating, cost
+FROM restaurants
+WHERE rating > 4.0 AND cost < 500;
 ```
 
 ---
@@ -121,7 +119,7 @@ WHERE rating > 4.0 AND cost_for_two < 500;
 
 ```
 ├── dataset/
-│   └── swiggy_data.csv
+│   └── restaurants.csv
 ├── queries/
 │   └── analysis.sql
 ├── README.md
